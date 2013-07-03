@@ -40,3 +40,12 @@ else(OpenMS_FOUND)
   message(FATAL_ERROR "OpenMSConfig.cmake file not found!")
 endif(OpenMS_FOUND)
 
+set(TMPDIR /tmp/)
+set(DIFFCMD diff -w)
+
+ADD_TEST("LowMemGaussFilter_test_1" LowMemGaussFilter -in testdata/NoiseFilterGaussian_1_input.mzML -ini testdata/NoiseFilterGaussian_1_parameters.ini -out ${TMPDIR}/NoiseFilterGaussian_1_output.mzML.tmp -test)
+ADD_TEST("LowMemGaussFilter_test_1_out" ${DIFFCMD} ${TMPDIR}/NoiseFilterGaussian_1_output.mzML.tmp testdata/NoiseFilterGaussian_1_output.mzML)
+ADD_TEST("LowMemFileCacher_test_1" LowMemFileCacher -in testdata/NoiseFilterGaussian_1_input.mzML -out ${TMPDIR}/FileCacher_1_output.mzML.tmp -test)
+
+ENABLE_TESTING()
+
