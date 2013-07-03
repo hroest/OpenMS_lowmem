@@ -32,30 +32,28 @@
 // $Authors: Hannes Roest $
 // --------------------------------------------------------------------------
 
+#include "MzMLConsumer.h"
+#include "MSDataReader.h"
+
 #include <OpenMS/FORMAT/MzMLFile.h>
 #include <OpenMS/KERNEL/MSExperiment.h>
-#include <OpenMS/FILTERING/SMOOTHING/GaussFilter.h>
 #include <OpenMS/APPLICATIONS/TOPPBase.h>
-#include <OpenMS/FORMAT/PeakTypeEstimator.h>
 #include <OpenMS/DATASTRUCTURES/StringList.h>
 
-#include "LowMemory.h"
-
 #include <OpenMS/FILTERING/SMOOTHING/GaussFilter.h>
-
 
 using namespace OpenMS;
 using namespace std;
 
 template <typename MapType>
 class OPENMS_DLLAPI GaussMzMLConsumer :
-  public InternalCaching::MzMLConsumer <MapType>
+  public Internal::MzMLConsumer <MapType>
 {
 
 public:
 
   GaussMzMLConsumer(String filename, GaussFilter gf) :
-    InternalCaching::MzMLConsumer<MapType>(filename, ProgressLogger())
+    Internal::MzMLConsumer<MapType>(filename, ProgressLogger())
   {
     gf_ = gf;
   }
@@ -152,7 +150,7 @@ public:
     ///////////////////////////////////
     // Load the file only to count the number of spectra/chromatograms
     ///////////////////////////////////
-    InternalCaching::MSDataCounterReserve<Peak1D> exp_cnt;
+    Internal::MSDataCounterReserve<Peak1D> exp_cnt;
     {
       MzMLFile f;
       f.getOptions().addMSLevel(-1);
@@ -236,7 +234,7 @@ public:
     ///////////////////////////////////
     // Create MSExperiment reader and set its consumer to the Gauss Consumer
     ///////////////////////////////////
-    InternalCaching::MSDataReader<GaussMzMLConsumer<MSExperiment<> >,
+    Internal::MSDataReader<GaussMzMLConsumer<MSExperiment<> >,
         Peak1D, ChromatogramPeak> exp_reader;
     exp_reader.setConsumer(gaussConsumer);
 

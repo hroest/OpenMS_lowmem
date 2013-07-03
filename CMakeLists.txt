@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 ## list all your executables here (a corresponding .C file should exist, e.g. Main.C)
 set(my_executables
   LowMemGaussFilter
+  LowMemFileCacher
 )
 
 ## find OpenMS configuration and register target "OpenMS" (our library)
