@@ -226,13 +226,13 @@ public:
     gaussConsumer->addDataProcessing(getProcessingInfo_(DataProcessing::SMOOTHING));
 
     ///////////////////////////////////
-    // Create GaussFilter and hand it to the GaussMzMLConsumer
+    // Set experimental settings in the consumer
     ///////////////////////////////////
     gaussConsumer->setExpectedSize(exp_cnt.spectraCounts, exp_cnt.chromatogramCounts);
     gaussConsumer->setExperimentalSettings(settings_only);
 
     ///////////////////////////////////
-    // Create MSExperiment reader and set its consumer to the Gauss Consumer
+    // Create new MSDataReader and set our consumer
     ///////////////////////////////////
     Internal::MSDataReader<GaussMzMLConsumer<MSExperiment<> >,
         Peak1D, ChromatogramPeak> exp_reader;
