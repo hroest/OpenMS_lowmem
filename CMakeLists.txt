@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.6)
 ## list all your executables here (a corresponding .C file should exist, e.g. Main.C)
 set(my_executables
   LowMemGaussFilter
+  LowMemPeakPickerHiRes
   LowMemFileCacher
 )
 
@@ -41,10 +42,12 @@ else(OpenMS_FOUND)
 endif(OpenMS_FOUND)
 
 set(TMPDIR /tmp/)
-set(DIFFCMD diff -w)
+set(DIFFCMD FuzzyDiff)
 
 ADD_TEST("LowMemGaussFilter_test_1" LowMemGaussFilter -in testdata/NoiseFilterGaussian_1_input.mzML -ini testdata/NoiseFilterGaussian_1_parameters.ini -out ${TMPDIR}/NoiseFilterGaussian_1_output.mzML.tmp -test)
-ADD_TEST("LowMemGaussFilter_test_1_out" ${DIFFCMD} ${TMPDIR}/NoiseFilterGaussian_1_output.mzML.tmp testdata/NoiseFilterGaussian_1_output.mzML)
+ADD_TEST("LowMemGaussFilter_test_1_out" ${DIFFCMD} -in1 ${TMPDIR}/NoiseFilterGaussian_1_output.mzML.tmp -in2 testdata/NoiseFilterGaussian_1_output.mzML -ini testdata/FuzzyDiff.ini)
+ADD_TEST("LowMemPeakPickerHiRes_test_1" LowMemPeakPickerHiRes -in testdata/PeakPickerHiRes_input.mzML -ini testdata/PeakPickerHiRes_parameters.ini -out ${TMPDIR}/PeakPickerHiRes_output.mzML.tmp -test)
+ADD_TEST("LowMemPeakPickerHiRes_test_1_out" ${DIFFCMD} -in1 ${TMPDIR}/PeakPickerHiRes_output.mzML.tmp -in2 testdata/PeakPickerHiRes_output.mzML -ini testdata/FuzzyDiff.ini)
 ADD_TEST("LowMemFileCacher_test_1" LowMemFileCacher -in testdata/NoiseFilterGaussian_1_input.mzML -out ${TMPDIR}/FileCacher_1_output.mzML.tmp -test)
 
 ENABLE_TESTING()
