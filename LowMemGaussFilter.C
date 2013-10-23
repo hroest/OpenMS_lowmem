@@ -62,6 +62,7 @@ public:
   {
     gf_.filter(s);
   }
+
   GaussFilter gf_;
 };
 

@@ -89,7 +89,7 @@ namespace OpenMS
       }
 
       /// adds a spectrum to the consumer and keeps the meta-data (SpectrumSettings)
-      void addSpectrum(const MSSpectrum<PeakT> & spectrum)
+      void addSpectrum(MSSpectrum<PeakT> & spectrum)
       {
         consumer->consumeSpectrum(spectrum);
 
@@ -100,7 +100,7 @@ namespace OpenMS
       }
 
       /// adds a chromatogram to the consumer and keeps the meta-data (ChromatogramSettings)
-      void addChromatogram(const MSChromatogram<ChromatogramPeakT> & chromatogram)
+      void addChromatogram(MSChromatogram<ChromatogramPeakT> & chromatogram)
       {
         consumer->consumeChromatogram(chromatogram);
 
@@ -162,8 +162,8 @@ namespace OpenMS
       inline void reserveSpaceSpectra(Size /* s */) {}
       void reset() {}
 
-      void addSpectrum(const MSSpectrum<PeakT> & /* spectrum */) { spectraCounts++; }
-      void addChromatogram(const MSChromatogram<ChromatogramPeakT> & /* chromatogram */) { chromatogramCounts++; }
+      void addSpectrum(MSSpectrum<PeakT> & /* spectrum */) { spectraCounts++; }
+      void addChromatogram(MSChromatogram<ChromatogramPeakT> & /* chromatogram */) { chromatogramCounts++; }
 
       Size spectraCounts;
       Size chromatogramCounts;
@@ -204,8 +204,8 @@ namespace OpenMS
       inline void reserveSpaceChromatograms(Size s) { chromatogramCounts = s; }
 
       void reset() {}
-      void addSpectrum(const MSSpectrum<PeakT> & /* spectrum */) {}
-      void addChromatogram(const MSChromatogram<ChromatogramPeakT> & /* chromatogram */) {}
+      void addSpectrum(MSSpectrum<PeakT> & /* spectrum */) {}
+      void addChromatogram(MSChromatogram<ChromatogramPeakT> & /* chromatogram */) {}
 
       Size spectraCounts;
       Size chromatogramCounts;

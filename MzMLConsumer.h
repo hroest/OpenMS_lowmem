@@ -179,7 +179,6 @@ namespace OpenMS
 
       void consumeSpectrum(const SpectrumType & s)
       {
-
         // Create copy and add dataprocessing if required
         SpectrumType scpy = s;
         processSpectrum_(scpy);
@@ -224,6 +223,7 @@ namespace OpenMS
       {
         throw Exception::NotImplemented(__FILE__, __LINE__, __PRETTY_FUNCTION__);
       }
+
     protected:
 
       virtual void processSpectrum_(SpectrumType & s)

@@ -67,10 +67,10 @@ namespace OpenMS
       //@{
       /// Peak type
       typedef PeakT PeakType;
-      /// Chromatogram peak type
+      typedef MSSpectrum<PeakT> SpectrumType;
+      /// Chromatogram type
       typedef ChromatogramPeakT ChromatogramPeakType;
-      /// Spectrum Type
-      typedef MSSpectrum<PeakType> SpectrumType;
+      typedef MSChromatogram<ChromatogramPeakT> ChromatogramType;
       //@}
 
       virtual SpectrumType& operator[] (Size n)
@@ -123,16 +123,18 @@ namespace OpenMS
       virtual void reset() = 0;
 
       /// adds a spectra to the list
-      virtual void addSpectrum(const MSSpectrum<PeakT> & spectrum)
+      virtual void addSpectrum(MSSpectrum<PeakT> &)
       {
         throw Exception::NotImplemented(__FILE__, __LINE__, __PRETTY_FUNCTION__);
       }
 
       /// adds a chromatogram to the list
-      virtual void addChromatogram(const MSChromatogram<ChromatogramPeakType> & chromatogram)
+      virtual void addChromatogram(MSChromatogram<ChromatogramPeakType> &)
       {
         throw Exception::NotImplemented(__FILE__, __LINE__, __PRETTY_FUNCTION__);
       }
+
+      virtual void resize(size_t) {}
 
       /// returns the spectra list
       virtual const std::vector<MSSpectrum<PeakT> > & getSpectra() const
@@ -174,7 +176,7 @@ namespace OpenMS
 
         @param clear_meta_data If @em true, all meta data is cleared in addition to the data.
       */
-      virtual void clear(bool clear_meta_data)
+      virtual void clear(bool)
       {
         throw Exception::NotImplemented(__FILE__, __LINE__, __PRETTY_FUNCTION__);
       }
