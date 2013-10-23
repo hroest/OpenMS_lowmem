@@ -129,6 +129,75 @@ namespace OpenMS
     };
 
     /*
+     * Provides the same interface as MSExperiment in order to be passed into mzXMLHandler.
+     *
+     * The mzXMLHandler is somewhat special since it directly expands the array
+     * of spectra and then performs operations on the last spectrum while it
+     * encounters new XML tags:
+     *
+     *  exp_->resize(exp_->size() + 1);
+     *  exp_->getSpectra().back().setMSLevel(ms_level);
+     *  [ ... ]
+     *
+     *  Therefore we provide a dummy array of spectra to present to the
+     *  mzXMLHandler available through getSpectra (and keep the real spectra
+     *  available through getRealSpectra). This allows any class inheriting from this class
+     *
+     * Example usage:
+     *
+          MSMzXMLDataReader<MzMLConsumer> exp_reader;
+          exp_reader.setConsumer(dataConsumer);
+          MzXMLFile().load(in, exp_reader);
+     *
+    */
+    template <typename ConsumerT, typename PeakT = Peak1D, typename ChromatogramPeakT = ChromatogramPeak>
+    class OPENMS_DLLAPI MSMzXMLDataReader :
+      public MSDataReader<ConsumerT, PeakT, ChromatogramPeakT>
+    {
+
+  public:
+
+      /// Constructor
+      MSMzXMLDataReader() {}
+
+      /// Calling resize means that the handler will move on to the next spectrum.
+      /// Therefore we append the old spectrum through addSpectrum and set the
+      /// vector of dummy spectra to one empty spectrum again.
+      void resize(size_t) 
+      {
+        if (this->dummy_spectra_.empty())
+        {
+          this->dummy_spectra_.push_back(MSSpectrum<PeakT>());
+        }
+        else
+        {
+          addSpectrum(this->dummy_spectra_.back());
+          this->dummy_spectra_.clear();
+          this->dummy_spectra_.push_back(MSSpectrum<PeakT>());
+        }
+      }
+
+      virtual std::vector<MSSpectrum<PeakT> > & getSpectra() 
+      {
+        return this->dummy_spectra_;
+      }
+
+      virtual std::vector<MSSpectrum<PeakT> > & getRealSpectra() 
+      {
+        return this->spectra_;
+      }
+
+      // MzXMLHandler reader will call size() 
+      // exp_->resize(exp_->size() + 1);
+      virtual Size size() const { return this->spectra_.size(); }
+
+    protected:
+
+      /// dummy spectra vector only for the mzXML handler
+      std::vector< MSSpectrum<Peak1D> > dummy_spectra_;
+    };
+
+    /*
      * Can count how many spectra and chromatograms are present in an mzML file. 
      *
      * This class relies on the fact that each spectrum and chromatogram will be
