@@ -95,9 +95,9 @@ namespace OpenMS
 
       // Now re-load the cached file at tmp + tmp_fname and get a
       // SpectrumAccessPtr to return to caller.
-      MSExperiment<Peak1D> exp;
+      boost::shared_ptr<MSExperiment<Peak1D> > exp(new MSExperiment<Peak1D>);
       MzMLFile mzmlfile;
-      mzmlfile.load(meta_file, exp);
+      mzmlfile.load(meta_file, *exp);
       return SimpleOpenMSSpectraFactory::getSpectrumAccessOpenMSPtr(exp);
     }
 
