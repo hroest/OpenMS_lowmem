@@ -158,7 +158,7 @@ namespace OpenMS
         //cleanup
         //--------------------------------------------------------------------------------------------
         ofs << "\t\t</spectrumList>\n";
-        Internal::MzMLHandler<MapType>::writeFooter_(ofs);
+        MzMLHandlerHelper::writeFooter_(ofs, this->options_, this->spectra_offsets, this->chromatograms_offsets);
 
         delete validator_;
 
