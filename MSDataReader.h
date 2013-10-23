@@ -78,18 +78,18 @@ namespace OpenMS
       MSDataReader() {}
 
       // Need implementation, but we do not care about them
-      inline void reserve(Size /* s */) {}
-      inline void reserveSpaceChromatograms(Size /* s */) {}
-      inline void reserveSpaceSpectra(Size /* s */) {}
+      inline virtual void reserve(Size /* s */) {}
+      inline virtual void reserveSpaceChromatograms(Size /* s */) {}
+      inline virtual void reserveSpaceSpectra(Size /* s */) {}
 
       /// Resets all internal values
-      void reset()
+      virtual void reset()
       {
         ExperimentalSettings::operator=(ExperimentalSettings()); //reset meta info
       }
 
       /// adds a spectrum to the consumer and keeps the meta-data (SpectrumSettings)
-      void addSpectrum(MSSpectrum<PeakT> & spectrum)
+      virtual void addSpectrum(MSSpectrum<PeakT> & spectrum)
       {
         consumer->consumeSpectrum(spectrum);
 
@@ -100,7 +100,7 @@ namespace OpenMS
       }
 
       /// adds a chromatogram to the consumer and keeps the meta-data (ChromatogramSettings)
-      void addChromatogram(MSChromatogram<ChromatogramPeakT> & chromatogram)
+      virtual void addChromatogram(MSChromatogram<ChromatogramPeakT> & chromatogram)
       {
         consumer->consumeChromatogram(chromatogram);
 
@@ -111,13 +111,13 @@ namespace OpenMS
       }
 
       /// returns the list with the spectra settings
-      const std::vector<MSSpectrum<PeakT> > & getSpectraSettings() const
+      virtual const std::vector<MSSpectrum<PeakT> > & getSpectraSettings() const
       {
         return this->spectra_;
       }
 
       /// returns the list with the chromatogram settings
-      const std::vector<MSChromatogram<ChromatogramPeakT> > & getChromatogramSettings() const
+      virtual const std::vector<MSChromatogram<ChromatogramPeakT> > & getChromatogramSettings() const
       {
         return this->chromatograms_;
       }
